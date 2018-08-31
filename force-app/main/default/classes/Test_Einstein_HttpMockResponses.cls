@@ -138,7 +138,7 @@ public with sharing class Test_Einstein_HttpMockResponses implements HttpCallout
     private static HTTPResponse mockDeleteDataset(HTTPRequest req) {
 
         HttpResponse res = new HttpResponse();
-        res.setStatusCode(204);
+        res.setStatusCode(200);
         return res;
 
     }
@@ -220,7 +220,7 @@ public with sharing class Test_Einstein_HttpMockResponses implements HttpCallout
     private static HTTPResponse mockDeleteExample(HTTPRequest req) {
 
         HttpResponse res = new HttpResponse();
-        res.setStatusCode(204);
+        res.setStatusCode(200);
         return res;
 
     }
