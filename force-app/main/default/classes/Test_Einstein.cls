@@ -105,6 +105,7 @@ public with sharing class Test_Einstein {
         // Test 1: Valid Dataset returned
         System.assertEquals('Beach and Mountain', dataset.name);
         System.assertEquals(DateTime.newInstanceGmT(2016,9,15,16,51,41), dataset.updatedAt);
+        System.assertEquals(99, dataset.totalExamples);
     }
 
     static testMethod void getDatasets() {
@@ -210,9 +211,19 @@ public with sharing class Test_Einstein {
         System.assertEquals(1, model.queuePosition);
         System.assertEquals('7JXCXTRXTMNLJCEF2DR5CJ46QU', model.modelId);
         System.assertEquals(null, model.trainParams);
-        System.assertEquals(null, model.trainStats);
         System.assertEquals('image', model.modelType);
         System.assertEquals(null, model.failureMsg);
+
+        System.assertEquals('00:00:01:008', model.trainStats.datasetLoadTime);
+        System.assertEquals(true, model.trainStats.earlyStopping);
+        System.assertEquals(150, model.trainStats.examples);
+        System.assertEquals(5, model.trainStats.labels);
+        System.assertEquals(267, model.trainStats.lastEpochDone);
+        System.assertEquals('00:00:01:561', model.trainStats.modelSaveTime);
+        System.assertEquals(11, model.trainStats.testSplitSize);
+        System.assertEquals('00:03:54:159', model.trainStats.totalTime);
+        System.assertEquals('00:03:53:150', model.trainStats.trainingTime);
+        System.assertEquals(139, model.trainStats.trainSplitSize);
 
         try {
             model = service.trainDataset(0, 'Beach and Mountain Model', 0, 0, null);
@@ -763,6 +774,106 @@ public with sharing class Test_Einstein {
         Einstein_PlaygroundController.predictIntent('123', 'hello, world');
         Einstein_PlaygroundController.predictSentiment('123', 'hello, world');
 
+
+        test.stopTest();
+    }
+
+    static testmethod void testPGOtherMethodsWithBadHTTP(){
+        Einstein_Settings__c settings = Einstein_Settings__c.getOrgDefaults();
+        settings.Einstein_EMail__c = 'test@mail.com';
+        upsert settings;
+
+        Test.setMock(HttpCalloutMock.class, new Test_Einstein_HttpMockResponsesBadHTTP());
+
+        test.startTest();
+        try {
+            Einstein_PlaygroundController.getDatasets('image');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.getDatasets('image-multi-label');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.getDatasets('image-detection');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.createDatasetFromUrl('https://www.google.com', 'image');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.getUsage();
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.getModels(57, 'image');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.trainDataset(57, 'myModel', 'image');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.retrainDataset('57', 'text-sentiment');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        
+        
+
+        //prediction methods
+        try {
+            Einstein_PlaygroundController.predictImageClassification('123', 'aaabbbccc');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.predictImageClassificationURL('123', 'https://www.google.com');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.predictImageDetection('123', 'aaabbbccc');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.predictImageDetectionURL('123', 'https://www.google.com');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.predictIntent('123', 'hello, world');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
+        try {
+            Einstein_PlaygroundController.predictSentiment('123', 'hello, world');
+            System.assert(false, 'Exception Expected');
+        } catch (Exception e) {
+            System.assert(e instanceof AuraHandledException);
+        }
 
         test.stopTest();
     }

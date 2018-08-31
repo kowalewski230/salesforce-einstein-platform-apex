@@ -89,7 +89,7 @@ public class Einstein_HttpClient {
     }
 
     public Boolean isError() {
-        return (getStatusCode()!=200 && getStatusCode()!=204);
+        return (getStatusCode()!=200);
     }
 
     public Integer getStatusCode() {

@@ -227,7 +227,7 @@ public with sharing class Test_Einstein_HttpMockResponses implements HttpCallout
 
     private static HTTPResponse mockTrainDataset(HTTPRequest req) {
 
-        String jsonResponse = '{"datasetId":57,"datasetVersionId":0,"name":"Beach and Mountain Model","status":"QUEUED","progress":0,"createdAt":"2016-09-16T18:03:21.000+0000","updatedAt":"2016-09-16T18:03:21.000+0000","learningRate":0.001,"epochs":3,"queuePosition":1,"object":"training","modelId":"7JXCXTRXTMNLJCEF2DR5CJ46QU","trainParams":null,"trainStats":null,"modelType":"image"}';
+        String jsonResponse = '{"datasetId":57,"datasetVersionId":0,"name":"Beach and Mountain Model","status":"QUEUED","progress":0,"createdAt":"2016-09-16T18:03:21.000+0000","updatedAt":"2016-09-16T18:03:21.000+0000","learningRate":0.001,"epochs":3,"queuePosition":1,"object":"training","modelId":"7JXCXTRXTMNLJCEF2DR5CJ46QU","trainParams":null,"trainStats":{"labels":5,"examples":150,"totalTime":"00:03:54:159","trainingTime":"00:03:53:150","earlyStopping":true,"lastEpochDone":267,"modelSaveTime":"00:00:01:561","testSplitSize":11,"trainSplitSize":139,"datasetLoadTime":"00:00:01:008"},"modelType":"image"}';
 
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
@@ -239,7 +239,7 @@ public with sharing class Test_Einstein_HttpMockResponses implements HttpCallout
 
     private static HTTPResponse mockRetrainDataset(HTTPRequest req) {
 
-        String jsonResponse = '{"datasetId":57,"datasetVersionId":0,"name":"Beach and Mountain Model","status":"QUEUED","progress":0,"createdAt":"2016-09-16T18:03:21.000+0000","updatedAt":"2016-09-16T18:03:21.000+0000","learningRate":0.001,"epochs":3,"queuePosition":1,"object":"training","modelId":"7JXCXTRXTMNLJCEF2DR5CJ46QU","trainParams":null,"trainStats":null,"modelType":"image"}';
+        String jsonResponse = '{"datasetId":57,"datasetVersionId":0,"name":"Beach and Mountain Model","status":"QUEUED","progress":0,"createdAt":"2016-09-16T18:03:21.000+0000","updatedAt":"2016-09-16T18:03:21.000+0000","learningRate":0.001,"epochs":3,"queuePosition":1,"object":"training","modelId":"7JXCXTRXTMNLJCEF2DR5CJ46QU","trainParams":null,"trainStats":{"labels":5,"examples":150,"totalTime":"00:03:54:159","trainingTime":"00:03:53:150","earlyStopping":true,"lastEpochDone":267,"modelSaveTime":"00:00:01:561","testSplitSize":11,"trainSplitSize":139,"datasetLoadTime":"00:00:01:008"},"modelType":"image"}';
 
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
