@@ -58,12 +58,16 @@
     actionBuilder : function(component) {
         var action;
         var dataType = component.get("v.dataType");
+        const imageURL = component.get("v.imageURL");
         const files = component.get("v.files");
+        if(imageURL == null && files == null){
+            return;
+        }
 
         if (dataType === 'image' || dataType === 'image-multi-label') {
             if (files.length > 0 && files[0].length > 0){
                 action = component.get("c.predictImageClassification");
-            } else if (component.get("v.imageURL")){
+            } else if (imageURL){
                 action = component.get("c.predictImageClassificationURL");
             }
         } else if (dataType === 'text-intent') {
@@ -73,7 +77,7 @@
         } else if (dataType === 'image-detection'){
             if (files.length > 0 && files[0].length > 0) {
                 action = component.get("c.predictImageDetection");
-            } else if (component.get("v.imageURL")) {
+            } else if (imageURL) {
                 action = component.get("c.predictImageDetectionURL");
             }
         }
