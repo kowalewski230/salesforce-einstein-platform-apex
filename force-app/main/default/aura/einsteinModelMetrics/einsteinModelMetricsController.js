@@ -94,13 +94,17 @@
                     } else if (component.get("v.dataType") == 'image-detection') {
                         // put the f1 from the last epoch on the top-level model metrics
                         dataset.labelSummary.labels.forEach((label, key) => {
-                            dataset.labelSummary.labels[key].f1 = LCdata[LCdata.length - 1].labelData[key].f1;
+                            dataset.labelSummary.labels[key].f1 = LCdata.reduce((best, next) =>
+                                    best.metricsData.testAccuracy > next.metricsData.testAccuracy ? best : next)
+                                        .labelData[key].f1;
                         });
                     } else {
                         //put the highest epoch onto the dataset's labelSummary object for ConfusionFormatted
-                        dataset.labelSummary.labels.forEach( (label, key) => {
-                            dataset.labelSummary.labels[key].confusionFormatted = LCdata[LCdata.length-1].labelData[key].confusionFormatted;
-                        });
+                       dataset.labelSummary.labels.forEach( (label, key) => {
+                           dataset.labelSummary.labels[key].confusionFormatted = LCdata.reduce((best, next) =>
+                               best.metricsData.testAccuracy > next.metricsData.testAccuracy ? best : next)
+                                   .labelData[key].confusionFormatted;
+                       });
                     }
                     component.set("v.dataset", dataset);
 
